@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QIN | Quantum Integrity Network</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --cyan: #00f3ff;
+            --dark: #050505;
+            --gray: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .logo-qin {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 10px;
+            color: var(--cyan);
+            text-shadow: 0 0 20px var(--cyan);
+            margin-bottom: 20px;
+        }
+
+        .glitch-text {
+            font-size: 5rem;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: #888;
+            margin: 20px 0;
+        }
+
+        .btn-oracle {
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-oracle:hover {
+            background: var(--cyan);
+            color: black;
+            box-shadow: 0 0 30px var(--cyan);
+        }
+
+        /* --- TERMINAL --- */
+        .terminal {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            text-align: left;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-left: 2px solid var(--cyan);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .section {
+            padding: 100px 10% ;
+            min-height: 50vh;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #0a0a0a;
+            border: 1px solid var(--gray);
+            padding: 40px;
+            transition: border 0.5s;
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+        }
+
+        .card h3 { color: var(--cyan); }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <section class="hero">
+        <div class="logo-qin">QIN</div>
+        <h1 class="glitch-text">REALITY, VERIFIED.</h1>
+        <p class="subtitle">La primera red de integridad impulsada por física cuántica. Eliminando el fraude en e-Sports desde la raíz física.</p>
+        <button class="btn-oracle" onclick="simulateCollapse()">[ SOLICITAR ACCESO AL ORÁCULO ]</button>
+        
+        <div class="terminal" id="term">
+            > Initializing QIN OS...<br>
+            > Quantum Nodes: ONLINE<br>
+            > Awaiting Telemetry...
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="card-grid">
+            <div class="card reveal">
+                <h3>01. Capa Física</h3>
+                <p>Nodos de hardware localizados en el edge para latencia cero.</p>
+            </div>
+            <div class="card reveal">
+                <h3>02. Capa Lógica</h3>
+                <p>Captura de telemetría pura antes de cualquier manipulación de software.</p>
+            </div>
+            <div class="card reveal">
+                <h3>03. El Oráculo</h3>
+                <p>Análisis de entropía en tiempo real mediante colapso de función de onda.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // --- ANIMACIÓN DE PARTÍCULAS ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for(let i=0; i<100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                v: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00f3ff";
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
+                ctx.fill();
+                p.y -= p.v;
+                if(p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // --- GSAP ANIMATIONS ---
+        gsap.from(".glitch-text", { duration: 1.5, y: 50, opacity: 0, ease: "power4.out" });
+        gsap.from(".reveal", {
+            scrollTrigger: ".reveal",
+            duration: 1,
+            y: 30,
+            opacity: 0,
+            stagger: 0.3
+        });
+
+        // --- SIMULACIÓN DE TERMINAL ---
+        function simulateCollapse() {
+            const term = document.getElementById('term');
+            term.innerHTML += "<br>> ANALYZING REQUEST...";
+            setTimeout(() => {
+                term.innerHTML += "<br><span style='color:red'>> CRITICAL: ANOMALY DETECTED</span>";
+                term.innerHTML += "<br><span style='color:red'>> SESSION PURGED.</span>";
+                alert("Simulación de detección QIN: Intento de acceso no autorizado bloqueado por El Oráculo.");
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
